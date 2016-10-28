@@ -14,7 +14,6 @@
 
 @property (nonatomic, strong) NSOperationQueue * albumImageDownloadQueue;
 @property (nonatomic, strong) NSCache * albumImageCache;
-@property (nonatomic, strong) NSArray * songs;
 
 @end
 
@@ -32,36 +31,16 @@
     self.albumImageCache = [[NSCache alloc] init];
     [self.tableView registerClass:[MusicTableViewCell class]
            forCellReuseIdentifier:[MusicTableViewCell reuseIdentifier]];
-    [self fetchTop50Music];
+    [self fetchTopChartAndReloadTableView];
 }
 
-- (void)fetchTop50Music {
-
-    NSString * top50UrlString = @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
-
-    __weak typeof(self) weakSelf = self;
-    [APIManager fetchFromURL:top50UrlString completionHandler:^(id  _Nullable json, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"%@", error);
-        } else {
-            NSArray * songs = json[@"feed"][@"entry"];
-            if ( songs ) {
-                [weakSelf realoadTablViewWithSong:songs];
-            }
-            else {
-                // api changed
-            }
-        }
-
-    }];
+- (NSString *)topChartURL {
+    return @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
 }
 
-- (void)realoadTablViewWithSong:(NSArray *)songs {
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.songs = songs;
-        [self.tableView reloadData];
-    });
+- (NSArray *)songs {
+    return self.dataArray;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,7 +55,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.songs.count;
+    return self.songs ? self.songs.count : 0;
 }
 
 
