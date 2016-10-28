@@ -23,6 +23,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 120;
     [self.tableView registerClass:[MovieTableViewCell class]
            forCellReuseIdentifier:[MovieTableViewCell reuseIdentifier]];
     [self fetchTopChartAndReloadTableView];
@@ -49,7 +51,7 @@
     MovieTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MovieTableViewCell reuseIdentifier]
                                                                forIndexPath:indexPath];
     NSDictionary * movie = self.dataArray[indexPath.row];
-    cell.textLabel.text = movie[@"im:name"][@"label"];
+    cell.movieTitleLabel.text = movie[@"im:name"][@"label"];
     return cell;
 }
 
