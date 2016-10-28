@@ -7,13 +7,11 @@
 //
 
 #import "APIManager.h"
+#import "CacheManager.h"
 #import "MusicTableViewController.h"
 #import "MusicTableViewCell.h"
 
 @interface MusicTableViewController ()
-
-@property (nonatomic, strong) NSOperationQueue * albumImageDownloadQueue;
-@property (nonatomic, strong) NSCache * albumImageCache;
 
 @end
 
@@ -27,8 +25,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.albumImageDownloadQueue = [[NSOperationQueue alloc] init];
-    self.albumImageCache = [[NSCache alloc] init];
     [self.tableView registerClass:[MusicTableViewCell class]
            forCellReuseIdentifier:[MusicTableViewCell reuseIdentifier]];
     [self fetchTopChartAndReloadTableView];
@@ -72,23 +68,16 @@
 
     cell.textLabel.text = music[@"im:name"][@"label"];
     cell.detailTextLabel.text = detailText;
-    
-    UIImage * image = [self.albumImageCache objectForKey:albumImageUrl];
-    
+
+    UIImage * image = [[CacheManager sharedInstance] objectForKey:albumImageUrl];
+
     if ( image ) {
         cell.imageView.image = image;
     }
     else {
         __weak typeof(self) __weakSelf = self;
-        [self.albumImageDownloadQueue addOperationWithBlock:^{
-            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:albumImageUrl]];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
-            if ( image ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [__weakSelf.albumImageCache setObject:image forKey:albumImageUrl];
-                    [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                });
-            }
+        [[CacheManager sharedInstance] saveImageFromURL:albumImageUrl completionHandler:^{
+            [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }];
     }
 

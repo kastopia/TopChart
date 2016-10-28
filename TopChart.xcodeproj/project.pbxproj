@@ -12,6 +12,7 @@
 		EA0F397C1DC3B46B004AAC44 /* TopChartBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F397B1DC3B46B004AAC44 /* TopChartBaseTableViewController.m */; };
 		EA0F397F1DC3B88F004AAC44 /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F397E1DC3B88F004AAC44 /* MovieTableViewCell.m */; };
 		EA0F39821DC3B8B1004AAC44 /* TopChartBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F39811DC3B8B1004AAC44 /* TopChartBaseCell.m */; };
+		EA0F39851DC3C23C004AAC44 /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F39841DC3C23C004AAC44 /* CacheManager.m */; };
 		EA13D6A81DC12A42003E8799 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6A71DC12A42003E8799 /* main.m */; };
 		EA13D6AB1DC12A42003E8799 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6AA1DC12A42003E8799 /* AppDelegate.m */; };
 		EA13D6AE1DC12A42003E8799 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6AD1DC12A42003E8799 /* TabBarController.m */; };
@@ -51,6 +52,8 @@
 		EA0F397E1DC3B88F004AAC44 /* MovieTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewCell.m; sourceTree = "<group>"; };
 		EA0F39801DC3B8B1004AAC44 /* TopChartBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopChartBaseCell.h; sourceTree = "<group>"; };
 		EA0F39811DC3B8B1004AAC44 /* TopChartBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopChartBaseCell.m; sourceTree = "<group>"; };
+		EA0F39831DC3C23C004AAC44 /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
+		EA0F39841DC3C23C004AAC44 /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		EA13D6A31DC12A42003E8799 /* TopChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA13D6A71DC12A42003E8799 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EA13D6A91DC12A42003E8799 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 				EA13D6AA1DC12A42003E8799 /* AppDelegate.m */,
 				EA0F39771DC3AF83004AAC44 /* APIManager.h */,
 				EA0F39781DC3AF83004AAC44 /* APIManager.m */,
+				EA0F39831DC3C23C004AAC44 /* CacheManager.h */,
+				EA0F39841DC3C23C004AAC44 /* CacheManager.m */,
 				EA13D6AC1DC12A42003E8799 /* TabBarController.h */,
 				EA13D6AD1DC12A42003E8799 /* TabBarController.m */,
 				EA4188411DC12FAE00766B0F /* MusicTableViewController.h */,
@@ -308,6 +313,7 @@
 				EA0F39821DC3B8B1004AAC44 /* TopChartBaseCell.m in Sources */,
 				EA0F397C1DC3B46B004AAC44 /* TopChartBaseTableViewController.m in Sources */,
 				EAE4313F1DC31CAA0074001E /* MusicTableViewCell.m in Sources */,
+				EA0F39851DC3C23C004AAC44 /* CacheManager.m in Sources */,
 				EA0F39761DC3AD5D004AAC44 /* MovieTableViewController.m in Sources */,
 				EA0F397F1DC3B88F004AAC44 /* MovieTableViewCell.m in Sources */,
 				EA4188431DC12FAE00766B0F /* MusicTableViewController.m in Sources */,
