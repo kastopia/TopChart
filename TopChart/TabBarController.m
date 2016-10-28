@@ -8,6 +8,7 @@
 
 #import "TabBarController.h"
 #import "MusicTableViewController.h"
+#import "MovieTableViewController.h"
 
 @interface TabBarController ()
 
@@ -21,7 +22,15 @@
 
     MusicTableViewController * musicTableViewContrller = [[MusicTableViewController alloc] init];
     UINavigationController * musicNavigationContrller = [[UINavigationController alloc] initWithRootViewController:musicTableViewContrller];
-    self.viewControllers = @[ musicNavigationContrller ];
+
+    MovieTableViewController * movieTableViewController = [[MovieTableViewController alloc] init];
+    UINavigationController * movieNavigationController = [[UINavigationController alloc] initWithRootViewController:movieTableViewController];
+
+    self.viewControllers = @[ musicNavigationContrller, movieNavigationController ];
+
+    // load view, so the tabbar setups tabBarItem correctly
+    [musicTableViewContrller loadViewIfNeeded];
+    [movieTableViewController loadViewIfNeeded];
 }
 
 
