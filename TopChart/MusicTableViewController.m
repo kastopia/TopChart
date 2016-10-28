@@ -10,6 +10,8 @@
 
 @interface MusicTableViewController ()
 
+@property (nonatomic, strong) NSArray * songs;
+
 @end
 
 @implementation MusicTableViewController
@@ -22,6 +24,48 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self fetchTop50Music];
+}
+
+- (void)fetchTop50Music
+{
+    NSString * top50UrlString = @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
+    NSURL *url = [[NSURL alloc] initWithString:top50UrlString];
+    
+    NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
+    
+    __block typeof(self)  weakSelf = self;
+    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+        } else {
+            NSError* jsonError;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:kNilOptions
+                                                                   error:&jsonError];
+            if (jsonError) {
+                NSLog(@"%@", jsonError);
+                return;
+            }
+
+            NSArray * songs = json[@"feed"][@"entry"];
+            if ( songs ) {
+                [weakSelf realoadTablViewWithSong:songs];
+                NSLog(@"%@", json[@"feed"]);
+            }
+            else {
+                // api changed
+            }
+        }
+    }];
+    [task resume];
+}
+
+- (void)realoadTablViewWithSong:(NSArray *)songs {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.songs = songs;
+        [self.tableView reloadData];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
