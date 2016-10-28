@@ -16,8 +16,4 @@
     return self;
 }
 
-+ (NSString *)reuseIdentifier {
-    return NSStringFromClass([MusicTableViewCell class]);
-}
-
 @end

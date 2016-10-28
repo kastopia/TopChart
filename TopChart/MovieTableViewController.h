@@ -6,8 +6,8 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TopChartBaseTableViewController.h"
 
-@interface MovieTableViewController : UITableViewController
+@interface MovieTableViewController : TopChartBaseTableViewController
 
 @end

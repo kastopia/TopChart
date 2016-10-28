@@ -1,5 +1,5 @@
 //
-//  MusicTableViewCell.h
+//  TopChartBaseCell.m
 //  TopChart
 //
 //  Created by Kihoon Kwon on 2016-10-28.
@@ -8,6 +8,10 @@
 
 #import "TopChartBaseCell.h"
 
-@interface MusicTableViewCell : TopChartBaseCell
+@implementation TopChartBaseCell
+
++ (NSString *)reuseIdentifier {
+    return NSStringFromClass([self class]);
+}
 
 @end

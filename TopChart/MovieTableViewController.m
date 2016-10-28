@@ -7,6 +7,7 @@
 //
 
 #import "MovieTableViewController.h"
+#import "MovieTableViewCell.h"
 
 @interface MovieTableViewController ()
 
@@ -22,6 +23,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.tableView registerClass:[MovieTableViewCell class]
+           forCellReuseIdentifier:[MovieTableViewCell reuseIdentifier]];
+    [self fetchTopChartAndReloadTableView];
+}
+
+- (NSString *)topChartURL {
+    return @"https://itunes.apple.com/ca/rss/topmovies/limit=50/genre=4401/json";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,25 +39,20 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return self.dataArray ? self.dataArray.count : 0;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+
+    MovieTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MovieTableViewCell reuseIdentifier]
+                                                               forIndexPath:indexPath];
+    NSDictionary * movie = self.dataArray[indexPath.row];
+    cell.textLabel.text = movie[@"im:name"][@"label"];
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

@@ -1,5 +1,5 @@
 //
-//  MusicTableViewCell.h
+//  MovieTableViewCell.h
 //  TopChart
 //
 //  Created by Kihoon Kwon on 2016-10-28.
@@ -8,6 +8,6 @@
 
 #import "TopChartBaseCell.h"
 
-@interface MusicTableViewCell : TopChartBaseCell
+@interface MovieTableViewCell : TopChartBaseCell
 
 @end
