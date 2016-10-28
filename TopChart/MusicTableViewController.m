@@ -6,6 +6,7 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
+#import "APIManager.h"
 #import "MusicTableViewController.h"
 #import "MusicTableViewCell.h"
 
@@ -37,25 +38,12 @@
 - (void)fetchTop50Music {
 
     NSString * top50UrlString = @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
-    NSURL *url = [[NSURL alloc] initWithString:top50UrlString];
-    
-    NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
-    
+
     __weak typeof(self) weakSelf = self;
-    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [APIManager fetchFromURL:top50UrlString completionHandler:^(id  _Nullable json, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
         } else {
-            NSError* jsonError;
-            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:kNilOptions
-                                                                   error:&jsonError];
-            if (jsonError) {
-                NSLog(@"%@", jsonError);
-                return;
-            }
-
             NSArray * songs = json[@"feed"][@"entry"];
             if ( songs ) {
                 [weakSelf realoadTablViewWithSong:songs];
@@ -64,8 +52,8 @@
                 // api changed
             }
         }
+
     }];
-    [task resume];
 }
 
 - (void)realoadTablViewWithSong:(NSArray *)songs {

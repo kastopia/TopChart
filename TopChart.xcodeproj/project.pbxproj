@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EA0F39761DC3AD5D004AAC44 /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F39751DC3AD5D004AAC44 /* MovieTableViewController.m */; };
+		EA0F39791DC3AF83004AAC44 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F39781DC3AF83004AAC44 /* APIManager.m */; };
 		EA13D6A81DC12A42003E8799 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6A71DC12A42003E8799 /* main.m */; };
 		EA13D6AB1DC12A42003E8799 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6AA1DC12A42003E8799 /* AppDelegate.m */; };
 		EA13D6AE1DC12A42003E8799 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6AD1DC12A42003E8799 /* TabBarController.m */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		EA0F39741DC3AD5D004AAC44 /* MovieTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieTableViewController.h; sourceTree = "<group>"; };
 		EA0F39751DC3AD5D004AAC44 /* MovieTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewController.m; sourceTree = "<group>"; };
+		EA0F39771DC3AF83004AAC44 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		EA0F39781DC3AF83004AAC44 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		EA13D6A31DC12A42003E8799 /* TopChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA13D6A71DC12A42003E8799 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EA13D6A91DC12A42003E8799 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 			children = (
 				EA13D6A91DC12A42003E8799 /* AppDelegate.h */,
 				EA13D6AA1DC12A42003E8799 /* AppDelegate.m */,
+				EA0F39771DC3AF83004AAC44 /* APIManager.h */,
+				EA0F39781DC3AF83004AAC44 /* APIManager.m */,
 				EA13D6AC1DC12A42003E8799 /* TabBarController.h */,
 				EA13D6AD1DC12A42003E8799 /* TabBarController.m */,
 				EA4188411DC12FAE00766B0F /* MusicTableViewController.h */,
@@ -288,6 +293,7 @@
 				EAE4313F1DC31CAA0074001E /* MusicTableViewCell.m in Sources */,
 				EA0F39761DC3AD5D004AAC44 /* MovieTableViewController.m in Sources */,
 				EA4188431DC12FAE00766B0F /* MusicTableViewController.m in Sources */,
+				EA0F39791DC3AF83004AAC44 /* APIManager.m in Sources */,
 				EA13D6AB1DC12A42003E8799 /* AppDelegate.m in Sources */,
 				EA13D6A81DC12A42003E8799 /* main.m in Sources */,
 			);
