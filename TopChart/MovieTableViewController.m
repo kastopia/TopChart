@@ -57,13 +57,15 @@
     cell.movieRankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
     cell.movieTitleLabel.text = movie[@"im:name"][@"label"];
     
-    NSString * imageUrl = movie[@"im:image"][0][@"label"];
+    NSString * imageUrl = movie[@"im:image"][2][@"label"];
     UIImage * image = [[CacheManager sharedInstance] objectForKey:imageUrl];
     
     // NSString * previewUrl = movie[@"link"][1][@"attributes"][@"href"];
     
     if ( image ) {
         cell.movieImageView.image = image;
+        cell.movieImageHeight.constant = image.size.height;
+        cell.movieImageWidth.constant = image.size.width;
     }
     else {
         __weak typeof(self) __weakSelf = self;
