@@ -7,9 +7,12 @@
 //
 
 #import "MusicTableViewController.h"
+#import "MusicTableViewCell.h"
 
 @interface MusicTableViewController ()
 
+@property (nonatomic, strong) NSOperationQueue * albumImageDownloadQueue;
+@property (nonatomic, strong) NSCache * albumImageCache;
 @property (nonatomic, strong) NSArray * songs;
 
 @end
@@ -24,18 +27,23 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.albumImageDownloadQueue = [[NSOperationQueue alloc] init];
+    self.albumImageCache = [[NSCache alloc] init];
+    [self.tableView registerClass:[MusicTableViewCell class]
+           forCellReuseIdentifier:[MusicTableViewCell reuseIdentifier]];
     [self fetchTop50Music];
 }
 
-- (void)fetchTop50Music
-{
+- (void)fetchTop50Music {
+
     NSString * top50UrlString = @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
     NSURL *url = [[NSURL alloc] initWithString:top50UrlString];
     
     NSURLRequest * request = [[NSURLRequest alloc] initWithURL:url];
     
-    __block typeof(self)  weakSelf = self;
-    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    __weak typeof(self) weakSelf = self;
+    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
         } else {
@@ -51,7 +59,6 @@
             NSArray * songs = json[@"feed"][@"entry"];
             if ( songs ) {
                 [weakSelf realoadTablViewWithSong:songs];
-                NSLog(@"%@", json[@"feed"]);
             }
             else {
                 // api changed
@@ -62,6 +69,7 @@
 }
 
 - (void)realoadTablViewWithSong:(NSArray *)songs {
+
     dispatch_async(dispatch_get_main_queue(), ^{
         self.songs = songs;
         [self.tableView reloadData];
@@ -76,24 +84,49 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return self.songs.count;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+
+    MusicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MusicTableViewCell reuseIdentifier]
+                                                               forIndexPath:indexPath];
+    NSDictionary * music = self.songs[indexPath.row];
+
+    NSString * artistName = music[@"im:artist"][@"label"];
+    NSString * albumTitle = music[@"im:collection"][@"im:name"][@"label"];
+    NSString * detailText = [NSString stringWithFormat:@"%@ - %@", artistName, albumTitle];
+    NSString * albumImageUrl = music[@"im:image"][0][@"label"];
+
+    cell.textLabel.text = music[@"im:name"][@"label"];
+    cell.detailTextLabel.text = detailText;
     
-    // Configure the cell...
+    UIImage * image = [self.albumImageCache objectForKey:albumImageUrl];
     
+    if ( image ) {
+        cell.imageView.image = image;
+    }
+    else {
+        __weak typeof(self) __weakSelf = self;
+        [self.albumImageDownloadQueue addOperationWithBlock:^{
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:albumImageUrl]];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+            if ( image ) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [__weakSelf.albumImageCache setObject:image forKey:albumImageUrl];
+                    [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                });
+            }
+        }];
+    }
+
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
