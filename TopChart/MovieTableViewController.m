@@ -6,6 +6,7 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
+#import "CacheManager.h"
 #import "MovieTableViewController.h"
 #import "MovieTableViewCell.h"
 
@@ -23,8 +24,10 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.tableView.backgroundColor = [UIColor blackColor];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 120;
+    self.tableView.estimatedRowHeight = 200;
     [self.tableView registerClass:[MovieTableViewCell class]
            forCellReuseIdentifier:[MovieTableViewCell reuseIdentifier]];
     [self fetchTopChartAndReloadTableView];
@@ -51,7 +54,24 @@
     MovieTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MovieTableViewCell reuseIdentifier]
                                                                forIndexPath:indexPath];
     NSDictionary * movie = self.dataArray[indexPath.row];
+    cell.movieRankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
     cell.movieTitleLabel.text = movie[@"im:name"][@"label"];
+    
+    NSString * imageUrl = movie[@"im:image"][0][@"label"];
+    UIImage * image = [[CacheManager sharedInstance] objectForKey:imageUrl];
+    
+    // NSString * previewUrl = movie[@"link"][1][@"attributes"][@"href"];
+    
+    if ( image ) {
+        cell.movieImageView.image = image;
+    }
+    else {
+        __weak typeof(self) __weakSelf = self;
+        [[CacheManager sharedInstance] saveImageFromURL:imageUrl completionHandler:^{
+            [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }];
+    }
+
     return cell;
 }
 

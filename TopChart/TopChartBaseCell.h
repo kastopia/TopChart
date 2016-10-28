@@ -10,9 +10,6 @@
 
 @interface TopChartBaseCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView * movieImageView;
-@property (nonatomic, strong) UILabel * movieTitleLabel;
-
 + (NSString *)reuseIdentifier;
 
 @end

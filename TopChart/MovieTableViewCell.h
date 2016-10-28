@@ -10,4 +10,9 @@
 
 @interface MovieTableViewCell : TopChartBaseCell
 
+@property (nonatomic, strong) UILabel * movieRankLabel;
+@property (nonatomic, strong) UIImageView * movieImageView;
+@property (nonatomic, strong) UILabel * movieTitleLabel;
+@property (nonatomic, strong) UILabel * movieGenreLabel;
+
 @end
