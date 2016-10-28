@@ -15,6 +15,7 @@
 		EA13D6C11DC12A42003E8799 /* TopChartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6C01DC12A42003E8799 /* TopChartTests.m */; };
 		EA13D6CC1DC12A42003E8799 /* TopChartUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA13D6CB1DC12A42003E8799 /* TopChartUITests.m */; };
 		EA4188431DC12FAE00766B0F /* MusicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4188421DC12FAE00766B0F /* MusicTableViewController.m */; };
+		EAE4313F1DC31CAA0074001E /* MusicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4313E1DC31CAA0074001E /* MusicTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,8 @@
 		EA13D6CD1DC12A42003E8799 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA4188411DC12FAE00766B0F /* MusicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicTableViewController.h; sourceTree = "<group>"; };
 		EA4188421DC12FAE00766B0F /* MusicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicTableViewController.m; sourceTree = "<group>"; };
+		EAE4313D1DC31CAA0074001E /* MusicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicTableViewCell.h; sourceTree = "<group>"; };
+		EAE4313E1DC31CAA0074001E /* MusicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +111,8 @@
 				EA13D6AD1DC12A42003E8799 /* TabBarController.m */,
 				EA4188411DC12FAE00766B0F /* MusicTableViewController.h */,
 				EA4188421DC12FAE00766B0F /* MusicTableViewController.m */,
+				EAE4313D1DC31CAA0074001E /* MusicTableViewCell.h */,
+				EAE4313E1DC31CAA0074001E /* MusicTableViewCell.m */,
 				EA13D6B21DC12A42003E8799 /* Assets.xcassets */,
 				EA13D6B41DC12A42003E8799 /* LaunchScreen.storyboard */,
 				EA13D6B71DC12A42003E8799 /* Info.plist */,
@@ -275,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA13D6AE1DC12A42003E8799 /* TabBarController.m in Sources */,
+				EAE4313F1DC31CAA0074001E /* MusicTableViewCell.m in Sources */,
 				EA4188431DC12FAE00766B0F /* MusicTableViewController.m in Sources */,
 				EA13D6AB1DC12A42003E8799 /* AppDelegate.m in Sources */,
 				EA13D6A81DC12A42003E8799 /* main.m in Sources */,
