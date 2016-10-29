@@ -10,7 +10,7 @@
 
 @interface CacheManager : NSCache
 
-- (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(void))completionHandler;
+- (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(UIImage *))completionHandler;
 
 + (CacheManager *)sharedInstance;
 

@@ -54,23 +54,27 @@
     MovieTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MovieTableViewCell reuseIdentifier]
                                                                forIndexPath:indexPath];
     NSDictionary * movie = self.dataArray[indexPath.row];
-    cell.movieRankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
-    cell.movieTitleLabel.text = movie[@"im:name"][@"label"];
-    
+    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
+    cell.contentLabel.text = movie[@"im:name"][@"label"];
+
     NSString * imageUrl = movie[@"im:image"][2][@"label"];
     UIImage * image = [[CacheManager sharedInstance] objectForKey:imageUrl];
     
     // NSString * previewUrl = movie[@"link"][1][@"attributes"][@"href"];
     
     if ( image ) {
-        cell.movieImageView.image = image;
-        cell.movieImageHeight.constant = image.size.height;
-        cell.movieImageWidth.constant = image.size.width;
+        [cell setDownloadedImage:image];
     }
     else {
         __weak typeof(self) __weakSelf = self;
-        [[CacheManager sharedInstance] saveImageFromURL:imageUrl completionHandler:^{
-            [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [[CacheManager sharedInstance] saveImageFromURL:imageUrl completionHandler:^(UIImage * image){
+            if ( !__weakSelf.tableView.dragging && [__weakSelf.tableView.indexPathsForVisibleRows containsObject:indexPath] ) {
+                [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else {
+                MovieTableViewCell *cell = [__weakSelf.tableView cellForRowAtIndexPath:indexPath];
+                [cell setDownloadedImage:image];
+            }
         }];
     }
 

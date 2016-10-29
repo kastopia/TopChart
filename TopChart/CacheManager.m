@@ -24,7 +24,7 @@
 }
 
 
-- (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(void))completionHandler {
+- (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(UIImage *))completionHandler {
     __weak typeof(self) weakSelf = self;
     [self.downloadQueue addOperationWithBlock:^{
         NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
@@ -33,7 +33,7 @@
             [weakSelf setObject:image forKey:url];
             // only call the completionhanlder when cache is stored.
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler();
+                completionHandler(image);
             });
         }
     }];

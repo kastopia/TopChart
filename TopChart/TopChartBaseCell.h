@@ -6,9 +6,18 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface TopChartBaseCell : UITableViewCell
+
+@property (nonatomic, strong) UILabel * rankLabel;
+@property (nonatomic, strong) UIImageView * downloadedImageView;
+@property (nonatomic, strong) UILabel * contentLabel;
+
+@property (nonatomic, strong) NSLayoutConstraint * downloadedImageWidth;
+@property (nonatomic, strong) NSLayoutConstraint * downloadedImageHeight;
+
+- (void)setDownloadedImage:(UIImage *)image;
 
 + (NSString *)reuseIdentifier;
 

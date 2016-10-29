@@ -34,7 +34,6 @@
     return @"https://itunes.apple.com/us/rss/topsongs/limit=50/json";
 }
 
-
 - (NSArray *)songs {
     return self.dataArray;
 }
@@ -59,29 +58,43 @@
 
     MusicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MusicTableViewCell reuseIdentifier]
                                                                forIndexPath:indexPath];
-    NSDictionary * music = self.songs[indexPath.row];
 
+    cell.rankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
+
+    NSDictionary * music = self.songs[indexPath.row];
     NSString * artistName = music[@"im:artist"][@"label"];
     NSString * albumTitle = music[@"im:collection"][@"im:name"][@"label"];
     NSString * detailText = [NSString stringWithFormat:@"%@ - %@", artistName, albumTitle];
     NSString * albumImageUrl = music[@"im:image"][0][@"label"];
 
-    cell.textLabel.text = music[@"im:name"][@"label"];
-    cell.detailTextLabel.text = detailText;
+    cell.contentLabel.text = music[@"im:name"][@"label"];
+//    cell.detailTextLabel.text = detailText;
 
     UIImage * image = [[CacheManager sharedInstance] objectForKey:albumImageUrl];
 
     if ( image ) {
-        cell.imageView.image = image;
+        [cell setDownloadedImage:image];
     }
     else {
         __weak typeof(self) __weakSelf = self;
-        [[CacheManager sharedInstance] saveImageFromURL:albumImageUrl completionHandler:^{
-            [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [[CacheManager sharedInstance] saveImageFromURL:albumImageUrl completionHandler:^(UIImage * image){
+            // reload the cell if the tableview is not dragging and if the cell is visible
+            if ( !__weakSelf.tableView.dragging && [__weakSelf.tableView.indexPathsForVisibleRows containsObject:indexPath] ) {
+                [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else {
+                MusicTableViewCell *cell = [__weakSelf.tableView cellForRowAtIndexPath:indexPath];
+                [cell setDownloadedImage:image];
+            }
         }];
     }
 
     return cell;
+}
+
+#pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 75.0f;
 }
 
 /*
