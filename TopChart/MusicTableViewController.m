@@ -62,15 +62,25 @@
     cell.rankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
 
     NSDictionary * music = self.songs[indexPath.row];
+    NSString * albumImageUrl = music[@"im:image"][0][@"label"];
+    
+    NSString * musicTitle = music[@"im:name"][@"label"];
     NSString * artistName = music[@"im:artist"][@"label"];
     NSString * albumTitle = music[@"im:collection"][@"im:name"][@"label"];
-    NSString * detailText = [NSString stringWithFormat:@"%@ - %@", artistName, albumTitle];
-    NSString * albumImageUrl = music[@"im:image"][0][@"label"];
+    NSString * artistAndAlbumName = [NSString stringWithFormat:@"%@ - %@", artistName, albumTitle];
 
-    cell.contentLabel.text = music[@"im:name"][@"label"];
-//    cell.detailTextLabel.text = detailText;
+    NSString * attributedTextString = [NSString stringWithFormat:@"%@\n%@", musicTitle, artistAndAlbumName];
+    NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:attributedTextString];
+
+    [attributedText addAttributes:@{
+                                NSForegroundColorAttributeName: [UIColor grayColor],
+                                NSFontAttributeName: [UIFont systemFontOfSize:[UIFont smallSystemFontSize]],
+                            }
+                            range:[attributedTextString rangeOfString:artistAndAlbumName]];
 
     UIImage * image = [[CacheManager sharedInstance] objectForKey:albumImageUrl];
+
+    cell.contentLabel.attributedText = attributedText;
 
     if ( image ) {
         [cell setDownloadedImage:image];
