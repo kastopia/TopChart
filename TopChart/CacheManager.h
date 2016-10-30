@@ -8,6 +8,7 @@
 
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CacheManager : NSCache
 
 - (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(UIImage *))completionHandler;
@@ -15,3 +16,4 @@
 + (CacheManager *)sharedInstance;
 
 @end
+NS_ASSUME_NONNULL_END

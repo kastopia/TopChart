@@ -6,7 +6,7 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface TabBarController : UITabBarController
 

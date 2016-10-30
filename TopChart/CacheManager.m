@@ -23,7 +23,7 @@
     return self;
 }
 
-
+// download image from url and call completion handler only when the image is successfully downloaded
 - (void)saveImageFromURL:(NSString *)url completionHandler:(void(^)(UIImage *))completionHandler {
     __weak typeof(self) weakSelf = self;
     [self.downloadQueue addOperationWithBlock:^{
