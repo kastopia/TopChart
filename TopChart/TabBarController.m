@@ -27,8 +27,11 @@
     MovieTableViewController * movieTableViewController = [[MovieTableViewController alloc] init];
     UINavigationController * movieNavigationController = [[UINavigationController alloc] initWithRootViewController:movieTableViewController];
 
+    // setup images for tab bar
     musicTableViewContrller.tabBarItem.image = [UIImage imageNamed:@"music"];
     movieTableViewController.tabBarItem.image = [UIImage imageNamed:@"movie"];
+    // style movie navigation controller
+    movieNavigationController.navigationBar.barStyle = UIBarStyleBlack;
 
     self.viewControllers = @[ musicNavigationContrller, movieNavigationController ];
 
