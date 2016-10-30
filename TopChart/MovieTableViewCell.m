@@ -22,29 +22,9 @@
         self.rankLabel.textColor = [UIColor lightTextColor];
 
         self.contentLabel.textColor = [UIColor lightTextColor];
-        self.contentLabel.numberOfLines = 2;
+        self.contentLabel.numberOfLines = 5;
 
-        self.previewButton = [[UIButton alloc] init];
-        [self.previewButton setTitle:@"Preview" forState:UIControlStateNormal];
-        self.previewButton.translatesAutoresizingMaskIntoConstraints = false;
-        
-        [self.contentView addSubview:self.previewButton];
-
-        CGFloat padding = 10.0f;
-
-        NSArray * customConstraints = @[
-            // preview button layout
-            [self.previewButton.leadingAnchor constraintEqualToAnchor:self.contentLabel.trailingAnchor constant:padding],
-            [self.previewButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-padding],
-            [self.previewButton.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor],
-            [self.previewButton.widthAnchor constraintEqualToConstant:70]
-        ];
-        
-        [self.contentView addConstraints:customConstraints];
-        
-        for (NSLayoutConstraint * constraint in customConstraints) {
-            constraint.active = YES;
-        }
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }
