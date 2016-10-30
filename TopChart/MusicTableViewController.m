@@ -65,6 +65,16 @@
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // pause if song is playing
+    if ( self.musicPlayer && self.musicPlayer.rate > 0 ) {
+        [self.musicPlayer pause];
+        [self setToolbarItems:self.playToolBarItems animated:YES];
+    }
+}
+
 - (void)dealloc {
     // unsubscribe from NSNotification
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -79,7 +89,7 @@
 }
 
 - (void)playButtonPressed:(UIBarButtonItem *)sender {
-    if (self.musicPlayer.rate == 0) {
+    if ( self.musicPlayer.rate == 0 ) {
         [self.musicPlayer seekToTime:kCMTimeZero];
         [self.musicPlayer play];
         [self setToolbarItems:self.pauseToolBarItems animated:YES];
