@@ -17,10 +17,11 @@
 
 @property (nonatomic, strong) NSCache * attributedTextCache;
 
-@property (nonatomic, strong) UIBarButtonItem * playBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem * pauseBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem * musicTitleBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem * musicImageBarButtonItem;
+@property (nonatomic, strong) NSArray * pauseToolBarItems;
+@property (nonatomic, strong) NSArray * playToolBarItems;
+
 @property (nonatomic, strong) NSIndexPath * currentlyPlayingMusicIndex;
 @property (nonatomic, strong) AVPlayer * musicPlayer;
 
@@ -32,10 +33,10 @@
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Music", @"Music");
     
-    self.pauseBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
+    UIBarButtonItem * pauseBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
                                                                             target:self
                                                                             action:@selector(pauseButtonPressed:)];
-    self.playBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
+    UIBarButtonItem * playBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
                                                                             target:self
                                                                             action:@selector(playButtonPressed:)];
     self.musicImageBarButtonItem = [[UIBarButtonItem alloc] initWithImage:nil
@@ -48,7 +49,9 @@
                                                                    target:self
                                                                    action:@selector(musicTitleBarButtonItemPressed:)];
     self.musicTitleBarButtonItem.tintColor = [UIColor blackColor];
-    self.toolbarItems = @[ self.pauseBarButtonItem, self.musicImageBarButtonItem, self.musicTitleBarButtonItem ];
+    self.pauseToolBarItems = @[ pauseBarButtonItem, self.musicImageBarButtonItem, self.musicTitleBarButtonItem ];
+    self.playToolBarItems = @[ playBarButtonItem, self.musicImageBarButtonItem, self.musicTitleBarButtonItem];
+    self.toolbarItems = self.pauseToolBarItems;
 
     [self.tableView registerClass:[MusicTableViewCell class]
            forCellReuseIdentifier:[MusicTableViewCell reuseIdentifier]];
@@ -79,10 +82,7 @@
     if (self.musicPlayer.rate == 0) {
         [self.musicPlayer seekToTime:kCMTimeZero];
         [self.musicPlayer play];
-        [self setToolbarItems: @[ self.pauseBarButtonItem,
-                                  self.musicImageBarButtonItem,
-                                  self.musicTitleBarButtonItem ]
-                     animated:YES];
+        [self setToolbarItems:self.pauseToolBarItems animated:YES];
     }
 }
 
@@ -144,6 +144,7 @@
                     [self.musicPlayer seekToTime:kCMTimeZero];
                     [self.musicPlayer play];
                 }
+                return; // escape for selecting the same cell
             }
             else {
                 [self.musicPlayer pause];
@@ -154,13 +155,12 @@
     self.musicPlayer = [AVPlayer playerWithURL:[NSURL URLWithString:audioUrlString]];
     [self.musicPlayer play];
 
-    [self setToolbarItems: @[ self.pauseBarButtonItem, self.musicImageBarButtonItem, self.musicTitleBarButtonItem ] animated:YES];
+    [self setToolbarItems:self.pauseToolBarItems animated:YES];
     [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 - (void)musicDidFinishPlaying:(NSNotification *)notification {
-    NSLog(@"musicDidFinishPlaying");
-    [self setToolbarItems: @[ self.playBarButtonItem, self.musicImageBarButtonItem, self.musicTitleBarButtonItem ] animated:YES];
+    [self setToolbarItems:self.playToolBarItems animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -236,49 +236,5 @@
     self.currentlyPlayingMusicIndex = indexPath;
     [self setupToolBarItems];
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
