@@ -10,7 +10,7 @@
 #import "MusicTableViewController.h"
 #import "MovieTableViewController.h"
 
-@interface TabBarController ()
+@interface TabBarController()<UITabBarControllerDelegate>
 
 @end
 
@@ -19,12 +19,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.delegate = self;
 
     MusicTableViewController * musicTableViewContrller = [[MusicTableViewController alloc] init];
     UINavigationController * musicNavigationContrller = [[UINavigationController alloc] initWithRootViewController:musicTableViewContrller];
 
     MovieTableViewController * movieTableViewController = [[MovieTableViewController alloc] init];
     UINavigationController * movieNavigationController = [[UINavigationController alloc] initWithRootViewController:movieTableViewController];
+
+    musicTableViewContrller.tabBarItem.image = [UIImage imageNamed:@"music"];
+    movieTableViewController.tabBarItem.image = [UIImage imageNamed:@"movie"];
 
     self.viewControllers = @[ musicNavigationContrller, movieNavigationController ];
 
@@ -33,10 +37,15 @@
     [movieTableViewController loadViewIfNeeded];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    UINavigationController * navi = (UINavigationController *)viewController;
+    if ( [navi.viewControllers[0] isKindOfClass:[MusicTableViewController class]] ) {
+        self.tabBar.barStyle = UIBarStyleDefault;
+    }
+    else {
+        self.tabBar.barStyle = UIBarStyleBlack;
+    }
 }
 
 
