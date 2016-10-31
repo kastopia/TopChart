@@ -30,7 +30,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Music", @"Music");
-    
+    self.refreshControl.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    self.refreshControl.tintColor = [UIColor grayColor];
+
     UIBarButtonItem * pauseBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
                                                                             target:self
                                                                             action:@selector(pauseButtonPressed:)];

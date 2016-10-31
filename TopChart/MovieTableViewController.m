@@ -19,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Movie", @"Movie");
+    self.refreshControl.backgroundColor = [UIColor colorWithWhite:0.01 alpha:1];
+    self.refreshControl.tintColor = [UIColor whiteColor];
     self.tableView.backgroundColor = [UIColor blackColor];
     [self.tableView registerClass:[MovieTableViewCell class]
            forCellReuseIdentifier:[MovieTableViewCell reuseIdentifier]];
