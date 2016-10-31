@@ -35,7 +35,7 @@
 
     UIBarButtonItem * pauseBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
                                                                             target:self
-                                                                            action:@selector(pauseButtonPressed:)];
+                                                                            action:@selector(clearMusicPlayer)];
     UIBarButtonItem * playBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
                                                                             target:self
                                                                             action:@selector(playButtonPressed:)];
@@ -75,6 +75,15 @@
     }
 }
 
+// override reloadWithData function to remove current music player
+- (void)reloadWithData:(NSArray *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.dataArray = data;
+        [self.tableView reloadData];
+        [self clearMusicPlayer];
+    });
+}
+
 - (void)dealloc {
     // unsubscribe from NSNotification
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -96,7 +105,7 @@
     }
 }
 
-- (void)pauseButtonPressed:(UIBarButtonItem *)sender {
+- (void)clearMusicPlayer {
     [self.navigationController setToolbarHidden:YES animated:YES];
     if ( self.musicPlayer ) {
         [self.musicPlayer pause];
