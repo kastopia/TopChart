@@ -77,28 +77,10 @@
         cell.contentLabel.attributedText = attributedText;
         [self.attributedTextCache setObject:attributedText forKey:indexPath];
     }
-    
-    NSString * imageUrl = movie[@"im:image"][2][@"label"];
-    UIImage * image = [[CacheManager sharedInstance] objectForKey:imageUrl];
-    
+
     // NSString * previewUrl = movie[@"link"][1][@"attributes"][@"href"]; // doesnt work...
-    
-    if ( image ) {
-        [cell setDownloadedImage:image];
-    }
-    else {
-        __weak typeof(self) __weakSelf = self;
-        [[CacheManager sharedInstance] saveImageFromURL:imageUrl completionHandler:^(UIImage * image){
-            // reload the cell if the tableview is not dragging and if the cell is visible
-            if ( !__weakSelf.tableView.dragging && [__weakSelf.tableView.indexPathsForVisibleRows containsObject:indexPath] ) {
-                [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else {
-                MovieTableViewCell *cell = [__weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                [cell setDownloadedImage:image];
-            }
-        }];
-    }
+    NSString * imageUrl = movie[@"im:image"][2][@"label"];
+    [self setImageFromUrl:imageUrl forTableViewCell:cell atIndexPath:indexPath];
 
     return cell;
 }

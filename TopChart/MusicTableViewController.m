@@ -201,7 +201,6 @@
     cell.rankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
 
     NSDictionary * music = self.songs[indexPath.row];
-    NSString * albumImageUrl = music[@"im:image"][0][@"label"];
     
     NSAttributedString * attributedText = [self.attributedTextCache objectForKey:indexPath];
     if ( attributedText ) {
@@ -224,23 +223,8 @@
         [self.attributedTextCache setObject:attributedText forKey:indexPath]; // store it to cache
     }
 
-    UIImage * image = [[CacheManager sharedInstance] objectForKey:albumImageUrl];
-    if ( image ) {
-        [cell setDownloadedImage:image];
-    }
-    else {
-        __weak typeof(self) __weakSelf = self;
-        [[CacheManager sharedInstance] saveImageFromURL:albumImageUrl completionHandler:^(UIImage * image){
-            // reload the cell if the tableview is not dragging and if the cell is visible
-            if ( !__weakSelf.tableView.dragging && [__weakSelf.tableView.indexPathsForVisibleRows containsObject:indexPath] ) {
-                [__weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else {
-                MusicTableViewCell *cell = [__weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                [cell setDownloadedImage:image];
-            }
-        }];
-    }
+    NSString * albumImageUrl = music[@"im:image"][0][@"label"];
+    [self setImageFromUrl:albumImageUrl forTableViewCell:cell atIndexPath:indexPath];
 
     return cell;
 }

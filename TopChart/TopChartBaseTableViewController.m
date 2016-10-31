@@ -6,8 +6,10 @@
 //  Copyright © 2016 Terry Kwon. All rights reserved.
 //
 
-#import "TopChartBaseTableViewController.h"
 #import "APIManager.h"
+#import "CacheManager.h"
+#import "TopChartBaseCell.h"
+#import "TopChartBaseTableViewController.h"
 
 @interface TopChartBaseTableViewController ()
 
@@ -56,6 +58,29 @@
         self.dataArray = data;
         [self.tableView reloadData];
     });
+}
+
+- (void)setImageFromUrl:(NSString *)url forTableViewCell:(TopChartBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+
+    UIImage * image = [[CacheManager sharedInstance] objectForKey:url];
+    if ( image ) {
+        [cell setDownloadedImage:image];
+        return;
+    }
+
+    __weak typeof(self) __weakSelf = self;
+    [[CacheManager sharedInstance] saveImageFromURL:url completionHandler:^(UIImage * image){
+        // reload the cell if the tableview is not dragging and if the cell is visible
+        UITableView * tableView = __weakSelf.tableView;
+        if ( !tableView.dragging && [tableView.indexPathsForVisibleRows containsObject:indexPath] ) {
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else {
+            TopChartBaseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell setDownloadedImage:image];
+        }
+    }];
+
 }
 
 - (NSString *)topChartURL {

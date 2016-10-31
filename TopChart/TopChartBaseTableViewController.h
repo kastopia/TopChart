@@ -8,12 +8,17 @@
 
 @import UIKit;
 
+@class TopChartBaseCell;
+
+NS_ASSUME_NONNULL_BEGIN
 @interface TopChartBaseTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSCache * _Nonnull attributedTextCache;
+@property (nonatomic, strong) NSCache * attributedTextCache;
 @property (nonatomic, strong) NSArray * _Nullable dataArray;
 
-- (NSString * _Nonnull)topChartURL;
+- (NSString *)topChartURL;
 - (void)fetchTopChartAndReloadTableView;
+- (void)setImageFromUrl:(NSString *)url forTableViewCell:(TopChartBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
+NS_ASSUME_NONNULL_END
