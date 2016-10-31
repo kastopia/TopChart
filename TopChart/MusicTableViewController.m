@@ -15,8 +15,6 @@
 
 @interface MusicTableViewController ()
 
-@property (nonatomic, strong) NSCache * attributedTextCache;
-
 @property (nonatomic, strong) UIBarButtonItem * musicTitleBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem * musicImageBarButtonItem;
 @property (nonatomic, strong) NSArray * pauseToolBarItems;

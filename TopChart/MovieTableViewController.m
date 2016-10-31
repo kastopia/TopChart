@@ -49,25 +49,32 @@
     cell.rankLabel.text = [NSString stringWithFormat:@"%lu", indexPath.row + 1];
     cell.contentLabel.text = movie[@"im:name"][@"label"];
     
-    NSString * movieName = movie[@"im:name"][@"label"];
-    NSString * movieGenre = movie[@"category"][@"attributes"][@"label"];
-    NSString * movieReleaseDate = movie[@"im:releaseDate"][@"attributes"][@"label"];
-    
-    NSString * descriptionText = [NSString stringWithFormat:@"%@\nReleased on %@", movieGenre, movieReleaseDate];
-    NSString * movieContentText = [NSString stringWithFormat:@"%@\n%@", movieName, descriptionText];
-
-    NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:movieContentText];
-    [attributedText addAttributes:@{
-                                    NSForegroundColorAttributeName: [UIColor lightGrayColor],
-                                    NSFontAttributeName: [UIFont systemFontOfSize:[UIFont smallSystemFontSize]],
-                                    }
-                            range:[movieContentText rangeOfString:descriptionText]];
-    [attributedText addAttributes:@{
-                                    NSForegroundColorAttributeName: [UIColor whiteColor],
-                                    NSFontAttributeName: [UIFont boldSystemFontOfSize:[UIFont systemFontSize]],
-                                    }
-                            range:[movieContentText rangeOfString:movieName]];
-    cell.contentLabel.attributedText = attributedText;
+    NSAttributedString * attributedText = [self.attributedTextCache objectForKey:indexPath];
+    if ( attributedText ) {
+        cell.contentLabel.attributedText = attributedText;
+    }
+    else {
+        NSString * movieName = movie[@"im:name"][@"label"];
+        NSString * movieGenre = movie[@"category"][@"attributes"][@"label"];
+        NSString * movieReleaseDate = movie[@"im:releaseDate"][@"attributes"][@"label"];
+        
+        NSString * descriptionText = [NSString stringWithFormat:@"%@\nReleased on %@", movieGenre, movieReleaseDate];
+        NSString * movieContentText = [NSString stringWithFormat:@"%@\n%@", movieName, descriptionText];
+        
+        NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:movieContentText];
+        [attributedText addAttributes:@{
+                                        NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                        NSFontAttributeName: [UIFont systemFontOfSize:[UIFont smallSystemFontSize]],
+                                        }
+                                range:[movieContentText rangeOfString:descriptionText]];
+        [attributedText addAttributes:@{
+                                        NSForegroundColorAttributeName: [UIColor whiteColor],
+                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:[UIFont systemFontSize]],
+                                        }
+                                range:[movieContentText rangeOfString:movieName]];
+        cell.contentLabel.attributedText = attributedText;
+        [self.attributedTextCache setObject:attributedText forKey:indexPath];
+    }
     
     NSString * imageUrl = movie[@"im:image"][2][@"label"];
     UIImage * image = [[CacheManager sharedInstance] objectForKey:imageUrl];
@@ -98,6 +105,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 190;
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary * movie = self.dataArray[indexPath.row];
+    NSString * summary = movie[@"summary"][@"label"];
+
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Summary"
+                                                                              message:summary
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"Ok"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:nil];
+    [alertController addAction:okAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

@@ -24,7 +24,7 @@
         self.contentLabel.textColor = [UIColor lightTextColor];
         self.contentLabel.numberOfLines = 5;
 
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.accessoryType = UITableViewCellAccessoryDetailButton;
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 @interface TopChartBaseTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSCache * _Nonnull attributedTextCache;
 @property (nonatomic, strong) NSArray * _Nullable dataArray;
 
 - (NSString * _Nonnull)topChartURL;

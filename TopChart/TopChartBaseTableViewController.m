@@ -15,6 +15,13 @@
 
 @implementation TopChartBaseTableViewController
 
+- (id)init {
+    if ( self = [super init] ) {
+        self.attributedTextCache = [[NSCache alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
