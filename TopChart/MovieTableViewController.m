@@ -28,7 +28,7 @@
 }
 
 - (NSString *)topChartURL {
-    return @"https://itunes.apple.com/ca/rss/topmovies/limit=50/genre=4401/json";
+    return @"https://itunes.apple.com/us/rss/topmovies/limit=50/json";
 }
 
 - (void)didReceiveMemoryWarning {
